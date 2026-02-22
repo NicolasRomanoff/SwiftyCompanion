@@ -26,6 +26,7 @@ app.get("/:userLogin", tokenMiddleware, async (c) => {
   );
 
   const users = await res.json();
+  if (!users.length) return c.json({}, 404);
   return c.json(users[0]);
 });
 
