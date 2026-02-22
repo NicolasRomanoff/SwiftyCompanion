@@ -3,7 +3,7 @@ import { Text, TextProps } from "react-native";
 
 const typographyVariants = {
   style: { default: styles.text },
-  size: { lg: 50, md: 30, sm: 20, xs: 15 },
+  size: { xl: 60, lg: 50, md: 30, sm: 20, xs: 15 },
   color: {
     black: black,
     yellow: yellow,
@@ -11,6 +11,10 @@ const typographyVariants = {
     red: red,
     grey: grey,
     blue: blue,
+  },
+  weight: {
+    normal: "400" as const,
+    bold: "700" as const,
   },
 };
 type TTypographyVariants = typeof typographyVariants;
@@ -20,11 +24,13 @@ export const Typography: React.FC<
     variant?: keyof TTypographyVariants["style"];
     size?: keyof TTypographyVariants["size"];
     color?: keyof TTypographyVariants["color"];
+    weight?: keyof TTypographyVariants["weight"];
   }
 > = ({
   variant = "default",
   size = "md",
   color = "yellow",
+  weight = "normal",
   children,
   style,
   ...props
@@ -37,6 +43,7 @@ export const Typography: React.FC<
         style,
         { fontSize: typographyVariants.size[size] },
         { color: typographyVariants.color[color] },
+        { fontWeight: typographyVariants.weight[weight] },
       ]}
     >
       {children}
