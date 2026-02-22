@@ -18,6 +18,8 @@ app.use(
   }),
 );
 
+app.get("/", (c) => c.text("OK"));
+
 app.get("/:userLogin", tokenMiddleware, async (c) => {
   const userLogin = c.req.param("userLogin");
   const { access_token } = c.get("token");
