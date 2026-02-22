@@ -6,18 +6,26 @@ import { router } from "expo-router";
 import { View } from "react-native";
 
 const Profile = () => {
-  const { profile } = useProfile();
+  const { profile, setProfile } = useProfile();
   if (!profile)
     return (
       <View style={styles.container}>
         <Typography>Error</Typography>
+        <Button onClick={() => router.navigate("/")}>
+          <Typography color="black">Back</Typography>
+        </Button>
       </View>
     );
 
   return (
     <View style={styles.container}>
       <Typography>Profile : {profile.first_name}</Typography>
-      <Button onClick={() => router.navigate("/")}>
+      <Button
+        onClick={() => {
+          setProfile(null);
+          router.navigate("/");
+        }}
+      >
         <Typography color="black">Back</Typography>
       </Button>
     </View>

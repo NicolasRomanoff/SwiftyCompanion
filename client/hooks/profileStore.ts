@@ -3,12 +3,12 @@ import { create } from "zustand";
 
 type ProfileStore = {
   profile: TProfile | null;
-  setProfile: (profile: TProfile) => void;
+  setProfile: (profile: TProfile | null) => void;
 };
 
 const useProfile = create<ProfileStore>((set) => ({
   profile: null,
-  setProfile: (profile: TProfile) => set({ profile }),
+  setProfile: (profile: TProfile | null) => set({ profile }),
 }));
 
 export default useProfile;

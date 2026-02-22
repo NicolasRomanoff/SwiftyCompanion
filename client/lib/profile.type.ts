@@ -1,21 +1,43 @@
 import { z } from "zod";
 
 const ImageVersionsSchema = z.object({
-  large: z.string().url(),
-  medium: z.string().url(),
-  small: z.string().url(),
-  micro: z.string().url(),
+  large: z.url(),
+  medium: z.url(),
+  small: z.url(),
+  micro: z.url(),
 });
 
 const ImageSchema = z.object({
-  link: z.string().url(),
+  link: z.url(),
   versions: ImageVersionsSchema,
 });
 
 const UserRefSchema = z.object({
   id: z.number(),
+  email: z.email(),
   login: z.string(),
-  url: z.string().url(),
+  first_name: z.string(),
+  last_name: z.string(),
+  usual_full_name: z.string(),
+  usual_first_name: z.string().nullable(),
+  url: z.url(),
+  phone: z.string(),
+  displayname: z.string(),
+  kind: z.string(),
+  image: ImageSchema,
+  "staff?": z.boolean(),
+  correction_point: z.number(),
+  pool_month: z.string().nullable(),
+  pool_year: z.string().nullable(),
+  location: z.string().nullable(),
+  wallet: z.number(),
+  anonymize_date: z.string(),
+  data_erasure_date: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  alumnized_at: z.string().nullable(),
+  "alumni?": z.boolean(),
+  "active?": z.boolean(),
 });
 
 const CursusSchema = z.object({
@@ -125,7 +147,7 @@ const ProjectUserSchema = z.object({
   final_mark: z.number().nullable(),
   status: z.string(),
   "validated?": z.boolean().nullable(),
-  current_team_id: z.number(),
+  current_team_id: z.number().nullable(),
   project: ProjectRefSchema,
   cursus_ids: z.array(z.number()),
   marked_at: z.string().nullable(),
@@ -144,7 +166,7 @@ const AchievementSchema = z.object({
   visible: z.boolean(),
   image: z.string(),
   nbr_of_success: z.number().nullable(),
-  users_url: z.string().url(),
+  users_url: z.url(),
 });
 
 const TitleSchema = z.object({
@@ -163,28 +185,28 @@ const TitleUserSchema = z.object({
 
 export const ProfileSchema = z.object({
   id: z.number(),
-  email: z.string().email(),
+  email: z.email(),
   login: z.string(),
   first_name: z.string(),
   last_name: z.string(),
   usual_full_name: z.string(),
   usual_first_name: z.string().nullable(),
-  url: z.string().url(),
-  phone: z.string().nullable(),
+  url: z.url(),
+  phone: z.string(),
   displayname: z.string(),
   kind: z.string(),
   image: ImageSchema,
   "staff?": z.boolean(),
   correction_point: z.number(),
-  pool_month: z.string(),
-  pool_year: z.string(),
+  pool_month: z.string().nullable(),
+  pool_year: z.string().nullable(),
   location: z.string().nullable(),
   wallet: z.number(),
-  anonymize_date: z.string().nullable(),
-  data_erasure_date: z.string().nullable(),
-  created_at: z.string().optional(),
-  updated_at: z.string().optional(),
-  alumnized_at: z.string().nullable().optional(),
+  anonymize_date: z.string(),
+  data_erasure_date: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  alumnized_at: z.string().nullable(),
   "alumni?": z.boolean(),
   "active?": z.boolean(),
   groups: z.array(z.unknown()),
