@@ -31,6 +31,13 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
   },
+  input: {
+    borderRadius: 20,
+    borderColor: white,
+    backgroundColor: white,
+    borderWidth: 1,
+    padding: 10,
+  },
 });
 
 export default styles;
