@@ -29,14 +29,10 @@ const SwiftyCompanion = () => {
     setIsError(false);
     Keyboard.dismiss();
     try {
-      const user = await axios.get(`http://localhost:3000/${login}`);
-      const { id } = zod.parse(ProfileSchema.pick({ id: true }), user.data);
-
-      const profile = await axios.get(`http://localhost:3000/user/${id}`);
+      const profile = await axios.get(`http://localhost:3000/${login}`);
       const profileParsed = zod.parse(ProfileSchema, profile.data);
       setProfile(profileParsed);
-    } catch (e) {
-      console.log("Error : ", e);
+    } catch {
       setIsError(true);
       setProfile(null);
     }

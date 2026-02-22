@@ -2,6 +2,8 @@ import { serve } from "@hono/node-server";
 import { config } from "dotenv";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import z from "zod";
+import { ProfileSchema } from "../lib/profile.type.js";
 import tokenMiddleware from "./middleware/tokenMiddleware.js";
 
 config();
@@ -20,26 +22,22 @@ app.get("/:userLogin", tokenMiddleware, async (c) => {
   const userLogin = c.req.param("userLogin");
   const { access_token } = c.get("token");
 
-  const res = await fetch(
+  const usersResponse = await fetch(
     `https://api.intra.42.fr/v2/users?filter[login]=${userLogin}`,
     { headers: { Authorization: `Bearer ${access_token}` } },
   );
 
-  const users = await res.json();
-  if (!users.length) return c.json({}, 404);
-  return c.json(users[0]);
-});
+  const users = await usersResponse.json();
+  if (!users.length) return c.json({ message: "User not found" }, 404);
 
-app.get("/user/:id", tokenMiddleware, async (c) => {
-  const id = c.req.param("id");
-  const { access_token } = c.get("token");
+  const { id } = z.parse(ProfileSchema.pick({ id: true }), users[0]);
 
-  const res = await fetch(`https://api.intra.42.fr/v2/users/${id}`, {
+  const userResponse = await fetch(`https://api.intra.42.fr/v2/users/${id}`, {
     headers: { Authorization: `Bearer ${access_token}` },
   });
 
-  const user = await res.json();
-  return c.json(user);
+  const user = await userResponse.json();
+  return c.json(ProfileSchema.parse(user));
 });
 
 app.onError((error, c) => c.text(error.message));
